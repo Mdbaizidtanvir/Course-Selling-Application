@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block title %}Create Course | LMS{% endblock %}
+
+{% block content %}
+<div class="max-w-3xl mx-auto bg-white shadow-lg rounded-lg p-8 mt-8">
+    <h1 class="text-2xl font-bold mb-6 text-gray-800">Create New Course</h1>
+    <form method="POST" class="space-y-5">
+        {% csrf_token %}
+
+        <input type="text" name="title" placeholder="Course Title"
+            class="w-full p-3 border rounded-lg" required>
+
+        <input type="url" name="thmb" placeholder="Thumbnail URL"
+            class="w-full p-3 border rounded-lg">
+
+        <input type="url" name="cover_url" placeholder="Cover Image URL"
+            class="w-full p-3 border rounded-lg">
+
+        <input type="text" name="category" placeholder="Category"
+            class="w-full p-3 border rounded-lg">
+
+        <select name="course_type" class="w-full p-3 border rounded-lg">
+            <option value="">Select Course Level</option>
+            <option value="BEGINNER">Beginner</option>
+            <option value="INTERMEDIATE">Intermediate</option>
+            <option value="ADVANCED">Advanced</option>
+        </select>
+
+        <textarea name="description" rows="4" placeholder="Course Description"
+            class="w-full p-3 border rounded-lg" required></textarea>
+
+        <input type="number" name="price" step="0.01" placeholder="Price (leave 0 for free)"
+            class="w-full p-3 border rounded-lg">
+
+        <label class="flex items-center space-x-2">
+            <input type="checkbox" name="is_free" class="h-4 w-4 text-indigo-600">
+            <span>Mark as Free</span>
+        </label>
+
+        <button type="submit"
+            class="w-full bg-indigo-600 text-white py-3 rounded-lg font-semibold hover:bg-indigo-700 transition">
+            Create Course
+        </button>
+    </form>
+</div>
+{% endblock %}

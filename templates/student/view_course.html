@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ enrollment.course.title }} | LMS{% endblock %}
+
+{% block content %}
+<h1 class="text-3xl font-bold mb-6">{{ enrollment.course.title }}</h1>
+
+<ul class="space-y-4">
+  {% for module in modules %}
+  <li>
+    <h2 class="text-xl font-semibold">{{ module.title }}</h2>
+    <ul class="list-disc pl-6 mt-2 space-y-1">
+      {% for lesson in module.lesson_set.all %}
+      <li>
+        <a href="{% url 'view_lesson' lesson.id %}" class="text-indigo-600 hover:underline">{{ lesson.title }}</a>
+      </li>
+      {% endfor %}
+    </ul>
+  </li>
+  {% endfor %}
+</ul>
+
+<div class="mt-6 space-x-4">
+  <a href="{% url 'generate_certificate' enrollment.course.id %}"
+     class="inline-block bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">Download Certificate</a>
+
+  <a href="{% url 'zoom_classroom' enrollment.course.id %}"
+     class="inline-block bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Join Zoom Class</a>
+</div>
+{% endblock %}

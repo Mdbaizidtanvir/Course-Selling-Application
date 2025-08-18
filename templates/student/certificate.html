@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head><style>
+  body { text-align: center; font-family: sans-serif; }
+</style></head>
+<body>
+  <h1>Certificate of Completion</h1>
+  <p>This certifies that</p>
+  <h2>{{ user.get_full_name }}</h2>
+  <p>has successfully completed the course</p>
+  <h3>{{ course.title }}</h3>
+  <p>on {{ now|date:"F d, Y" }}</p>
+</body>
+</html>

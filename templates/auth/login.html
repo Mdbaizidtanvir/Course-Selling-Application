@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+
+{% block title %}Login | LMS{% endblock %}
+
+{% block content %}
+<div class="flex items-center justify-center min-h-screen bg-gray-100">
+  
+  <div class="bg-white shadow-lg rounded-xl p-8 w-full max-w-md">
+    
+    <!-- Heading -->
+    <h1 class="text-3xl font-extrabold text-center text-gray-800 mb-6">
+      Welcome Back 👋
+    </h1>
+    <p class="text-center text-gray-500 mb-6">
+      Log in to continue your learning journey
+    </p>
+
+    <!-- Login Form -->
+    <form method="post" class="space-y-5">
+      {% csrf_token %}
+
+      <!-- Username -->
+      <div>
+        <label for="id_username" class="block text-sm font-medium text-gray-700">Username</label>
+        <input type="text" name="username" id="id_username" 
+               class="mt-1 w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500" 
+               placeholder="Enter your username" required>
+      </div>
+
+      <!-- Password -->
+      <div>
+        <label for="id_password" class="block text-sm font-medium text-gray-700">Password</label>
+        <input type="password" name="password" id="id_password" 
+               class="mt-1 w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500" 
+               placeholder="Enter your password" required>
+      </div>
+
+      <!-- Login Button -->
+      <button type="submit" 
+              class="w-full bg-indigo-600 text-white font-semibold py-2 rounded-lg shadow-md hover:bg-indigo-700 transition">
+        Log In
+      </button>
+    </form>
+
+    <!-- Divider -->
+    <div class="flex items-center my-6">
+      <hr class="flex-1 border-gray-300">
+      <span class="px-3 text-gray-400 text-sm">OR</span>
+      <hr class="flex-1 border-gray-300">
+    </div>
+
+    <!-- Register Link -->
+    <p class="text-center text-sm text-gray-600">
+      Don’t have an account?
+      <a href="{% url 'register' %}" class="text-indigo-600 hover:underline font-medium">
+        Create one
+      </a>
+    </p>
+
+  </div>
+</div>
+{% endblock %}

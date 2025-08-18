@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mx-auto px-5 py-8">
+
+    <!-- Instructor Info & Create Button -->
+    <div class="flex flex-col md:flex-row justify-between items-center mb-8 gap-4">
+        <div class="flex items-center gap-4">
+            <!-- User Icon -->
+            <div class="bg-indigo-600 text-white w-12 h-12 rounded-full flex items-center justify-center text-xl font-bold">
+                {{ request.user.username|first|upper }}
+            </div>
+            <div>
+                <h1 class="text-2xl font-bold text-gray-900">Hello, {{ request.user.username }}!</h1>
+                <p class="text-sm text-gray-600 flex items-center gap-1">
+                    <svg class="w-4 h-4 text-yellow-500" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M10 15l-5.878 3.09 1.123-6.545L.49 6.91l6.561-.955L10 0l2.949 5.955 6.561.955-4.755 4.635 1.123 6.545z"/>
+                    </svg>
+                    Balance: ${{ request.user.balance|floatformat:2 }}
+                </p>
+            </div>
+        </div>
+<div class="flex gap-2">
+    <a href="{% url 'payout_request' %}" 
+           class="bg-gray-900 text-white px-5 py-2 rounded-lg font-semibold hover:bg-indigo-700 transition">
+            Request Payout 
+        </a>
+</div>
+        <a href="{% url 'create_course' %}" 
+           class="bg-indigo-600 text-white px-5 py-2 rounded-lg font-semibold hover:bg-indigo-700 transition">
+            + Create New Course
+        </a>
+    </div>
+
+    <hr class="border-gray-300 mb-6" />
+
+    <!-- Courses Grid -->
+    {% if courses %}
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {% for course in courses %}
+        <div class="bg-white rounded-2xl shadow hover:shadow-lg transition overflow-hidden flex flex-col">
+            <!-- Thumbnail -->
+            <div class="relative h-40">
+                <img src="{{ course.thmb|default:'https://images.unsplash.com/photo-1516321318423-f06f85e504b3' }}" 
+                     class="w-full h-full object-cover" alt="{{ course.title }}">
+            </div>
+            
+            <!-- Course Content -->
+            <div class="p-5 flex-1 flex flex-col justify-between">
+                <div>
+                    <span class="text-xs text-gray-500 uppercase">{{ course.course_type }}</span>
+                    <h2 class="text-lg font-semibold mt-1">{{ course.title }}</h2>
+                    <p class="text-sm text-gray-600 mt-2">{{ course.description|truncatechars:80 }}</p>
+                    <p class="text-sm text-gray-400 mt-1">Category: {{ course.category }}</p>
+                    <p class="text-sm text-gray-400 mt-1">Created: {{ course.created_at|date:"M d, Y" }}</p>
+                </div>
+                
+                <!-- Footer -->
+                <div class="flex justify-between items-center mt-4">
+                    <span class="text-sm font-bold text-green-600">
+                        {% if course.is_free %}Free{% else %}${{ course.price }}</span>{% endif %}
+                 <a class="bg-red-600 text-white text-sm px-3 py-1.5 rounded-full hover:bg-indigo-700 transition"
+   href="{% url 'delete_cus' course.id %}">Delete</a>
+
+
+                        <a href="{% url 'instructor_edit_course' course.id %}" 
+                       class="bg-indigo-600 text-white text-sm px-3 py-1.5 rounded-full hover:bg-indigo-700 transition">
+                       Edit Settings
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+        <p class="text-gray-600 text-center mt-10 text-lg">No courses found. Create one using the button above!</p>
+    {% endif %}
+
+</div>
+{% endblock %}

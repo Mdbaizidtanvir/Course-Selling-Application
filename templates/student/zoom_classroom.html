@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% block title %}Live Class for {{ course.title }}{% endblock %}
+
+{% block content %}
+<h1 class="text-3xl font-bold mb-6">Live Class for {{ course.title }}</h1>
+<a href="{{ zoom_link }}" target="_blank" class="inline-block bg-indigo-600 text-white px-6 py-3 rounded hover:bg-indigo-700">
+  Join Zoom Meeting
+</a>
+{% endblock %}

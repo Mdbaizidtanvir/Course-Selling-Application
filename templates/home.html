@@ -1,0 +1,181 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<main>
+
+  <!-- Hero Section -->
+  <section class="relative h-[600px] flex items-center">
+    <div class="absolute inset-0">
+      <img src="https://images.unsplash.com/photo-1524178232363-1fb2b075b655" alt="Education Background"
+           class="w-full h-full object-cover">
+      <div class="absolute inset-0 bg-black/50"></div>
+    </div>
+    <div class="container mx-auto px-4 relative z-10 text-center">
+      <h1 class="text-4xl md:text-6xl font-bold text-white mb-4">
+        Transform Your Future with Quality Education
+      </h1>
+      <p class="text-lg md:text-xl text-white/80 mb-8">
+        Join thousands of learners worldwide in their journey to success
+      </p>
+      <a href="#courses" 
+         class="bg-white text-indigo-600 px-8 py-3 rounded-full font-semibold hover:bg-indigo-600 hover:text-white transition">
+        Explore Courses
+      </a>
+    </div>
+  </section>
+
+  <!-- Filter Section -->
+  <section class="py-10 bg-gray-50">
+    <div class="container mx-auto px-4">
+      <form method="get" class="flex flex-wrap gap-4 items-center justify-center">
+
+        <!-- Category Filter -->
+        <select name="category" class="px-4 py-2 border border-gray-300 rounded-lg">
+          <option value="all">All Categories</option>
+          {% for cat in categories %}
+            <option value="{{ cat }}" {% if selected_category == cat %}selected{% endif %}>{{ cat }}</option>
+          {% endfor %}
+        </select>
+
+        <!-- Course Type Filter -->
+        <select name="course_type" class="px-4 py-2 border border-gray-300 rounded-lg">
+          <option value="all">All Types</option>
+          {% for value, label in course_types %}
+            <option value="{{ value }}" {% if selected_course_type == value %}selected{% endif %}>{{ label }}</option>
+          {% endfor %}
+        </select>
+
+        <button type="submit" 
+                class="bg-indigo-600 text-white px-5 py-2 rounded-lg hover:bg-indigo-700">
+          Filter
+        </button>
+      </form>
+    </div>
+  </section>
+
+  <!-- Courses Section -->
+  <section id="courses" class="py-16 bg-white">
+    <div class="container mx-auto px-4">
+      <h2 class="text-3xl font-bold text-center mb-12 text-gray-800">
+        Featured Courses
+      </h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+
+        {% for course in courses %}
+        <div class="bg-white rounded-xl shadow hover:shadow-lg transition duration-300 border border-gray-100">
+          <div class="relative group">
+            <img src="{{ course.thmb|default:'https://via.placeholder.com/400x250?text=Course+Image' }}" 
+                 alt="{{ course.title }}"
+                 class="w-full h-48 object-cover rounded-t-xl group-hover:brightness-75 transition">
+            <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition">
+              <svg class="w-16 h-16 text-white" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M6.5 5.5l7 4.5-7 4.5v-9z" />
+              </svg>
+            </div>
+          </div>
+          <div class="p-5 space-y-3">
+            <div class="flex items-center justify-between text-xs text-gray-500">
+              <span class="bg-indigo-100 text-indigo-600 px-2 py-0.5 rounded-full font-semibold">
+                {{ course.category }}
+              </span>
+              <span class="uppercase tracking-wide font-medium text-indigo-500">
+                {{ course.course_type }}
+              </span>
+            </div>
+            <h2 class="text-lg font-semibold text-gray-800">
+              <a href="{% url 'course_detail' course.id %}" class="hover:underline">
+                {{ course.title }}
+              </a>
+            </h2>
+            <p class="text-sm text-gray-600">
+              {{ course.description|truncatechars:100 |safe  }}
+            </p>
+            <p class="text-xs text-gray-400">Instructor: {{ course.instructor.username }}</p>
+            <div class="flex justify-between items-center pt-2">
+              {% if course.is_free %}
+                <span class="text-green-500 font-bold text-sm">Free</span>
+              {% else %}
+                <span class="text-indigo-600 font-bold text-sm">${{ course.price }}</span>
+              {% endif %}
+              <a href="{% url 'course_detail' course.id %}" 
+                 class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-1.5 text-xs rounded-full">
+                Enroll
+              </a>
+            </div>
+          </div>
+        </div>
+        {% empty %}
+        <p class="text-gray-500 col-span-full text-center">No courses found.</p>
+        {% endfor %}
+
+      </div>
+    </div>
+  </section>
+
+</main>
+
+
+
+<!-- HERO SECTION -->
+<section class="bg-gradient-to-r from-blue-600 to-indigo-700 text-white py-20">
+  <div class="max-w-7xl mx-auto px-6 lg:px-8 text-center">
+    <h1 class="text-4xl sm:text-5xl font-bold mb-4">Welcome to Our Platform</h1>
+    <p class="text-lg max-w-2xl mx-auto mb-6">
+      Build, learn, and grow with our tools and services designed just for you.
+    </p>
+    <div class="flex justify-center space-x-4">
+      <a href="{% url 'register' %}" class="bg-white text-blue-600 px-6 py-3 rounded-lg font-semibold shadow hover:bg-gray-100">Get Started</a>
+      <a href="" class="bg-blue-500 px-6 py-3 rounded-lg font-semibold hover:bg-blue-400">Learn More</a>
+    </div>
+  </div>
+</section>
+
+<!-- PROMOTIONAL BANNERS -->
+<div class="grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-7xl mx-auto px-6 py-12">
+  <div class="bg-yellow-100 rounded-lg p-6 shadow hover:shadow-lg transition">
+    <h3 class="text-lg font-bold mb-2">Limited Offer</h3>
+    <p>Get 20% off for the first 3 months when you join now.</p>
+  </div>
+  <div class="bg-green-100 rounded-lg p-6 shadow hover:shadow-lg transition">
+    <h3 class="text-lg font-bold mb-2">Free Trial</h3>
+    <p>Enjoy full features for free for the first 14 days.</p>
+  </div>
+  <div class="bg-blue-100 rounded-lg p-6 shadow hover:shadow-lg transition">
+    <h3 class="text-lg font-bold mb-2">New Features</h3>
+    <p>We’ve just added new tools to help you work smarter.</p>
+  </div>
+</div>
+
+<!-- FEATURES SECTION -->
+<section class="py-12 bg-gray-50">
+  <div class="max-w-7xl mx-auto px-6">
+    <h2 class="text-2xl font-bold mb-6 text-center">Our Features</h2>
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-8">
+      <div class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition">
+        <svg class="w-12 h-12 text-blue-600 mb-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M12 8c1.104 0 2-.896 2-2s-.896-2-2-2-2 .896-2 2 .896 2 2 2zM5 20h14v-2c0-2.21-3.582-4-8-4s-8 1.79-8 4v2z"/>
+        </svg>
+        <h3 class="font-bold text-lg mb-2">User Friendly</h3>
+        <p>Our platform is designed for simplicity and ease of use.</p>
+      </div>
+      <div class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition">
+        <svg class="w-12 h-12 text-green-600 mb-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M9 19V6h13M9 6l-2 2m0 0l-2-2m2 2v13"/>
+        </svg>
+        <h3 class="font-bold text-lg mb-2">Fast & Secure</h3>
+        <p>Enjoy high speed and secure data processing.</p>
+      </div>
+      <div class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition">
+        <svg class="w-12 h-12 text-purple-600 mb-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M3 10h18M3 14h18M3 18h18"/>
+        </svg>
+        <h3 class="font-bold text-lg mb-2">Customizable</h3>
+        <p>Tailor the platform to meet your unique needs.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+{% endblock %}
