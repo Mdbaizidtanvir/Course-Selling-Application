@@ -8,46 +8,79 @@
 </head>
 <body class="bg-gray-100 min-h-screen flex flex-col">
 
-  <!-- Navbar -->
-  <header class="sticky top-0 z-50 bg-black shadow-md">
-    <nav class="container mx-auto px-4 py-4 flex items-center justify-between">
-      <!-- Logo -->
-      <a href="/" class="text-2xl font-extrabold text-white hover:text-indigo-400 transition">EduLearn</a>
+<!-- Navbar -->
+<header class="sticky top-0 z-50 bg-black shadow-md">
+  <nav class="container mx-auto px-4 py-4 flex items-center justify-between">
+    <!-- Logo -->
+    <a href="/" class="text-2xl font-extrabold text-white hover:text-indigo-400 transition">EduLearn</a>
 
-      <!-- Links (Desktop) -->
-      <div class="hidden md:flex items-center space-x-6">
-        <a href="/" class="text-gray-300 hover:text-indigo-400 transition">Home</a>
-        <a href="{% url 'all_courses' %}" class="text-gray-300 hover:text-indigo-400 transition">Courses</a>
-        <a href="{% url 'about' %}" class="text-gray-300 hover:text-indigo-400 transition">About Us</a>
-       
+    <!-- Links (Desktop) -->
+    <div class="hidden md:flex items-center space-x-6">
+      <a href="/" class="text-gray-300 hover:text-indigo-400 transition">Home</a>
+      <a href="{% url 'all_courses' %}" class="text-gray-300 hover:text-indigo-400 transition">Courses</a>
+      <a href="{% url 'about' %}" class="text-gray-300 hover:text-indigo-400 transition">About Us</a>
 
-        {% if user.is_authenticated %}
-          <div class="flex items-center space-x-3">
-            <span class="text-gray-400 flex items-center gap-1">
-              <svg class="w-4 h-4 text-green-400" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a8 8 0 100 16 8 8 0 000-16zm1 11H9v-2h2v2zm0-4H9V5h2v4z"/></svg>
-              {{ user.username }} 
-            </span>
-            <!-- Logout -->
-            <form action="{% url 'logout' %}" method="post" class="inline">
-              {% csrf_token %}
-              <button type="submit" class="text-red-500 hover:text-red-400 transition">Logout</button>
-            </form>
-            <a href="{% url 'student_dashboard' %}" class="px-3 py-1 bg-indigo-600 text-white rounded-lg hover:bg-indigo-500 transition">Dashboard</a>
-          </div>
-        {% else %}
-          <a href="{% url 'login' %}" class="text-indigo-400 hover:text-indigo-300 transition">Login</a>
-          <a href="{% url 'register' %}" class="ml-3 px-3 py-1 bg-indigo-600 text-white rounded-lg hover:bg-indigo-500 transition">Register</a>
-        {% endif %}
-      </div>
+      {% if user.is_authenticated %}
+        <div class="flex items-center space-x-3">
+          <span class="text-gray-400 flex items-center gap-1">
+            <svg class="w-4 h-4 text-green-400" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M10 2a8 8 0 100 16 8 8 0 000-16zm1 11H9v-2h2v2zm0-4H9V5h2v4z"/>
+            </svg>
+            {{ user.username }}
+          </span>
+          <!-- Logout -->
+          <form action="{% url 'logout' %}" method="post" class="inline">
+            {% csrf_token %}
+            <button type="submit" class="text-red-500 hover:text-red-400 transition">Logout</button>
+          </form>
+          <a href="{% url 'student_dashboard' %}" class="px-3 py-1 bg-indigo-600 text-white rounded-lg hover:bg-indigo-500 transition">Dashboard</a>
+        </div>
+      {% else %}
+        <a href="{% url 'login' %}" class="text-indigo-400 hover:text-indigo-300 transition">Login</a>
+        <a href="{% url 'register' %}" class="ml-3 px-3 py-1 bg-indigo-600 text-white rounded-lg hover:bg-indigo-500 transition">Register</a>
+      {% endif %}
+    </div>
 
-      <!-- Mobile Menu Button -->
-      <button class="md:hidden text-gray-300 focus:outline-none">
-        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-        </svg>
-      </button>
-    </nav>
-  </header>
+    <!-- Mobile Menu Button -->
+    <button id="menu-btn" class="md:hidden text-gray-300 focus:outline-none">
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M4 6h16M4 12h16M4 18h16"></path>
+      </svg>
+    </button>
+  </nav>
+
+  <!-- Mobile Menu (hidden by default) -->
+  <div id="mobile-menu" class="hidden md:hidden bg-black border-t border-gray-700">
+    <div class="px-4 py-3 space-y-2">
+      <a href="/" class="block text-gray-300 hover:text-indigo-400 transition">Home</a>
+      <a href="{% url 'all_courses' %}" class="block text-gray-300 hover:text-indigo-400 transition">Courses</a>
+      <a href="{% url 'about' %}" class="block text-gray-300 hover:text-indigo-400 transition">About Us</a>
+
+      {% if user.is_authenticated %}
+        <span class="block text-gray-400">{{ user.username }}</span>
+        <form action="{% url 'logout' %}" method="post" class="inline">
+          {% csrf_token %}
+          <button type="submit" class="block text-red-500 hover:text-red-400 transition">Logout</button>
+        </form>
+        <a href="{% url 'student_dashboard' %}" class="block px-3 py-1 bg-indigo-600 text-white rounded-lg hover:bg-indigo-500 transition">Dashboard</a>
+      {% else %}
+        <a href="{% url 'login' %}" class="block text-indigo-400 hover:text-indigo-300 transition">Login</a>
+        <a href="{% url 'register' %}" class="block px-3 py-1 bg-indigo-600 text-white rounded-lg hover:bg-indigo-500 transition">Register</a>
+      {% endif %}
+    </div>
+  </div>
+</header>
+
+<!-- JS for toggling -->
+<script>
+  const btn = document.getElementById("menu-btn");
+  const menu = document.getElementById("mobile-menu");
+
+  btn.addEventListener("click", () => {
+    menu.classList.toggle("hidden");
+  });
+</script>
 
   <!-- Main Content -->
   <main class="flex-1">

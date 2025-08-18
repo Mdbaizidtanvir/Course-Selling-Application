@@ -44,6 +44,9 @@ def home(request):
     if course_type and course_type != "all":
         courses = courses.filter(course_type__iexact=course_type)
 
+    # Show only 6 courses
+    courses = courses[:6]
+
     categories = Course.objects.values_list("category", flat=True).distinct()
     course_types = Course.COURSE_TYPE_CHOICES
 
@@ -54,6 +57,7 @@ def home(request):
         "selected_category": category,
         "selected_course_type": course_type
     })
+
 
 def course_detail(request, course_id):
     course = get_object_or_404(Course, id=course_id)
