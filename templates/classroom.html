@@ -147,7 +147,7 @@
 
 
 
-<h2 class="text-xl px-4 font-bold mb-4 text-gray-800 dark:text-white">Related Courses</h2>
+<h2 class="text-xl px-4 font-bold mb-4 text-gray-800 mb-10">Related Courses</h2>
 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-4 px-4">
   {% for course in related_courses %}
     <div class="bg-white dark:bg-gray-900 rounded-xl shadow-sm hover:shadow-md transition duration-300 border border-gray-100 dark:border-gray-800">
@@ -169,7 +169,7 @@
           </span>
         </div>
         
-        <h2 class="text-lg font-semibold text-gray-800 dark:text-white">
+        <h2 class="text-lg font-semibold text-gray-800 ">
           <a href="{% url 'course_detail' course.id %}" class="hover:underline">
             {{ course.title }}
           </a>
